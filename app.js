@@ -10,6 +10,90 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+var employees = [];
+
+inquirer.prompt([
+    {type: "list",
+    name: "Manager",
+    message: "Choose Manager",
+    },
+    {
+        type: "input",
+        name: "name",
+        message: "Enter Manager's name",
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "Enter employees email",
+    },
+])
+
+
+
+
+function getEmployees() {
+    inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: "name",
+            message: 'Enter employee name',
+    },
+{
+        type: "input",
+        name: "email",
+        message: "Enter employees email",
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "Enter employees ID number",
+        validate: "must enter a number",
+    },
+    {
+        type: 'list',
+        name: "Employee",
+        message: 'What type of employee would you like to add?',
+        choices: ['Engineer', 'Intern', "No more Employees"],
+},
+    ])
+    .then(answers => {
+    console.info('Answer:', answers.reptile);
+    switch (answers.Employee) {      
+        case "Engineer":                        
+            // ask engineer questions;  
+            inquirer.prompt([
+                { type: "input",
+                name: "github",
+                message: "Please enter github address",
+                validate: "Must enter a valid github url,"
+                },
+            ])
+            getEmployees();        
+            break;
+        case "Intern":                         
+            //ask intern questions;
+            inquirer.prompt([
+                { type: "input",
+                name: "school",
+                message: "Please enter school",
+                validate: "Must enter a school,"
+                },
+            ])
+            getEmployees();
+            break;
+        default:                        // else...
+            //stop the getEmployees function
+            const html = render(employees); 
+            //use fs to write the html file
+            fs.writeFile("team.html", )
+    };
+    });
+}
+
+getEmployees();
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
