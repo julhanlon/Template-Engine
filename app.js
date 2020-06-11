@@ -35,7 +35,7 @@ function getEmployees() {
         type: 'list',
         name: "Employee",
         message: 'What type of employee would you like to add?',
-        choices: [ "Manager",'Engineer', 'Intern', "No more Employees"],
+        choices: [ "Manager",'Engineer', "Intern"],
 },
     ])
     .then(answers => {
@@ -48,9 +48,10 @@ function getEmployees() {
             name: "officeNum",
             message: "Please enter managers office number",
             },
-        ])
-        employees.push(answers);
+        ]).then(() => {
+            employees.push(answers);
         getEmployees();
+        })
         break;
         case "Engineer":                        
             // ask engineer questions;  
@@ -59,9 +60,10 @@ function getEmployees() {
                 name: "github",
                 message: "Please enter github address",
                 },
-            ])
-            employees.push(answers);
-            getEmployees();        
+            ]).then(() => {
+                employees.push(answers);
+            getEmployees();
+            })       
             break;
         case "Intern":                         
             //ask intern questions;
@@ -70,9 +72,10 @@ function getEmployees() {
                 name: "school",
                 message: "Please enter school",
                 },
-            ])
-            employees.push(answers);
+            ]).then(() => {
+                employees.push(answers);
             getEmployees();
+            })
             break;
         default:              
             //stop the getEmployees function
