@@ -12,25 +12,6 @@ const render = require("./lib/htmlRenderer");
 
 var employees = [];
 
-inquirer.prompt([
-    {type: "list",
-    name: "Manager",
-    message: "Choose Manager",
-    },
-    {
-        type: "input",
-        name: "name",
-        message: "Enter Manager's name",
-    },
-    {
-        type: "input",
-        name: "email",
-        message: "Enter employees email",
-    },
-])
-
-
-
 
 function getEmployees() {
     inquirer
@@ -49,27 +30,37 @@ function getEmployees() {
         type: "input",
         name: "id",
         message: "Enter employees ID number",
-        validate: "must enter a number",
     },
     {
         type: 'list',
         name: "Employee",
         message: 'What type of employee would you like to add?',
-        choices: ['Engineer', 'Intern', "No more Employees"],
+        choices: [ "Manager",'Engineer', 'Intern', "No more Employees"],
 },
     ])
     .then(answers => {
-    console.info('Answer:', answers.reptile);
+    console.info('Answer:', answers);
     switch (answers.Employee) {      
+        case "Manager":                         
+        //ask manager questions;
+        inquirer.prompt([
+            { type: "input",
+            name: "officeNum",
+            message: "Please enter managers office number",
+            },
+        ])
+        employees.push(answers);
+        getEmployees();
+        break;
         case "Engineer":                        
             // ask engineer questions;  
             inquirer.prompt([
                 { type: "input",
                 name: "github",
                 message: "Please enter github address",
-                validate: "Must enter a valid github url,"
                 },
             ])
+            employees.push(answers);
             getEmployees();        
             break;
         case "Intern":                         
@@ -78,16 +69,23 @@ function getEmployees() {
                 { type: "input",
                 name: "school",
                 message: "Please enter school",
-                validate: "Must enter a school,"
                 },
             ])
+            employees.push(answers);
             getEmployees();
             break;
-        default:                        // else...
+        default:              
             //stop the getEmployees function
+            employees.push(answers);
             const html = render(employees); 
             //use fs to write the html file
-            fs.writeFile("team.html", )
+            fs.writeFile("./output/team.html", htmlFile, (err) => {
+                if (err) {
+                throw err;
+                } else {
+                console.log("created html file");
+                }
+            });
     };
     });
 }
