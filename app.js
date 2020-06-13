@@ -1,5 +1,6 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
+const Architect = require("./lib/Architect");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
@@ -36,7 +37,7 @@ function getEmployees() {
         type: 'list',
         name: "role",
         message: 'Which employee would you like to add?',
-        choices: [ "Manager",'Engineer', "Intern"],
+        choices: [ "Manager",'"Engineer", "Architect" "Intern"],
 },
 // Manager extra questions
         {
@@ -52,6 +53,13 @@ function getEmployees() {
                 message: "Enter their Github address",
                 when: (answers) => answers.role === "Engineer",
             },
+    // Architect extra questions
+        {
+            type: "input",
+            name: "portfolio",
+            message: "Enter their portfolio address",
+            when: (answers) => answers.role === "Architect",
+        },
 // Intern extra questions
         {
             type: "input",
@@ -61,7 +69,7 @@ function getEmployees() {
         },
         {
             type: "confirm",
-            message: "Would you like to add another team member?",
+            message: "Would you like to add another employee?",
             name: "addEmployee",
         },
     ]).then((res) => {
@@ -70,6 +78,9 @@ function getEmployees() {
         }
         if (res.role === "Engineer") {
             employee = new Engineer(res.name, res.email, res.id, res.github)
+        }
+        if (res.role === "Architect") {
+            employee = new Architect(res.name, res.email, res.id, res.portfolio)
         }
         if (res.role === "Intern") {
             employee = new Intern(res.name, res.email, res.id, res.school)
