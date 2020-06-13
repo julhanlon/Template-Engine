@@ -37,7 +37,7 @@ function getEmployees() {
         type: 'list',
         name: "role",
         message: 'Which employee would you like to add?',
-        choices: [ "Manager",'"Engineer", "Architect" "Intern"],
+        choices: [ "Manager","Engineer", "Architect", "Intern"],
 },
 // Manager extra questions
         {
