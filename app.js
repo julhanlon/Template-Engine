@@ -11,7 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-var employeeArr = [];
+var employees = [];
 
 getEmployees()
 
@@ -74,25 +74,25 @@ function getEmployees() {
         },
     ]).then((res) => {
         if (res.role === "Manager") {
-            employee = new Manager(res.name, res.email, res.id, res.officeNum)
+            employeeData = new Manager(res.name, res.email, res.id, res.officeNum)
         }
         if (res.role === "Engineer") {
-            employee = new Engineer(res.name, res.email, res.id, res.github)
+            employeeData = new Engineer(res.name, res.email, res.id, res.github)
         }
         if (res.role === "Architect") {
-            employee = new Architect(res.name, res.email, res.id, res.portfolio)
+            employeeData = new Architect(res.name, res.email, res.id, res.portfolio)
         }
         if (res.role === "Intern") {
-            employee = new Intern(res.name, res.email, res.id, res.school)
+            employeeData = new Intern(res.name, res.email, res.id, res.school)
         }
-        employeeArr.push(employee)
+        employees.push(employeeData)
         if (res.addEmployee) { getEmployees() }
         else {
-            fs.writeFile(outputPath, render(employeeArr),
+            fs.writeFile(outputPath, render(employees),
             (err) => { if (err) {
                 throw err;
             } else {
-                console.log("created html file")
+                console.log("Created html file")
             } 
             });
         }
