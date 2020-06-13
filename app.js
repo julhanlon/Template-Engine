@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-var employees = [];
+var employeesArr = [];
 
 
 function getEmployees() {
@@ -37,63 +37,57 @@ function getEmployees() {
         message: 'What type of employee would you like to add?',
         choices: [ "Manager",'Engineer', "Intern"],
 },
-    ])
-    .then(answers => {
-    console.info('Answer:', answers);
-    switch (answers.Employee) {      
-        case "Manager":                         
-        //ask manager questions;
-        inquirer.prompt([
-            { type: "input",
+// Manager extra questions
+         {
+            type: "input",
             name: "officeNum",
-            message: "Please enter managers office number",
-            },
-        ]).then(() => {
-            employees.push(answers);
-        getEmployees();
-        })
-        break;
-        case "Engineer":                        
-            // ask engineer questions;  
-            inquirer.prompt([
-                { type: "input",
+            message: "Enter office number",
+            when: (answers) => answers.role === "Manager",
+        },
+    // Engineer extra questions
+        {
+                type: "input",
                 name: "github",
-                message: "Please enter github address",
-                },
-            ]).then(() => {
-                employees.push(answers);
-            getEmployees();
-            })       
-            break;
-        case "Intern":                         
-            //ask intern questions;
-            inquirer.prompt([
-                { type: "input",
-                name: "school",
-                message: "Please enter school",
-                },
-            ]).then(() => {
-                employees.push(answers);
-            getEmployees();
-            })
-            break;
-        default:              
-            //stop the getEmployees function
-            employees.push(answers);
-            const html = render(employees); 
-            //use fs to write the html file
-            fs.writeFile("./output/team.html", htmlFile, (err) => {
-                if (err) {
+                message: "Enter their Github address",
+                when: (answers) => answers.role === "Engineer",
+            },
+// Intern extra question
+        {
+            type: "input",
+            name: "school",
+            message: "Enter their school",
+            when: (answers) => answers.role === "Intern",
+        },
+        {
+            type: "confirm",
+            message: "Would you like to add another team member?",
+            name: "addEmployee",
+        },
+    ]).then((res) => {
+        if (res.role === "Manager") {
+            newEmployee = new Manager(res.name, res.id, res.email, res.officeNum)
+        }
+        if (res.role === "Engineer") {
+            newEmployee = new Intern(res.name, res.id, res.email, res.github)
+        }
+        if (response.role === "Intern") {
+            newEmployee = new Engineer(res.name, res.id, res.emaill, res.school)
+        }
+        employees.push(newEmployee)
+        if (response.addEmployee) { getEmployees() }
+        else {
+            fs.writeFile(outputPath, render(employees),
+            (err) => { if (err) {
                 throw err;
-                } else {
-                console.log("created html file");
-                }
+            } else {
+                console.log("created html file")
+            } 
             });
-    };
-    });
+        }
+    }).catch((err) => console.log(err))
 }
 
-getEmployees();
+
 
 
 // Write code to use inquirer to gather information about the development team members,
