@@ -10,8 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-var employeesArr = [];
+var employeeArr = [];
 
+getEmployees()
 
 function getEmployees() {
     inquirer
@@ -29,16 +30,16 @@ function getEmployees() {
     {
         type: "input",
         name: "id",
-        message: "Enter employees ID number",
+        message: "Enter employee ID number",
     },
     {
         type: 'list',
         name: "Employee",
-        message: 'What type of employee would you like to add?',
+        message: 'Which employee would you like to add?',
         choices: [ "Manager",'Engineer', "Intern"],
 },
 // Manager extra questions
-         {
+        {
             type: "input",
             name: "officeNum",
             message: "Enter office number",
@@ -51,7 +52,7 @@ function getEmployees() {
                 message: "Enter their Github address",
                 when: (answers) => answers.role === "Engineer",
             },
-// Intern extra question
+// Intern extra questions
         {
             type: "input",
             name: "school",
@@ -65,18 +66,18 @@ function getEmployees() {
         },
     ]).then((res) => {
         if (res.role === "Manager") {
-            newEmployee = new Manager(res.name, res.id, res.email, res.officeNum)
+            employee = (res.name, res.email, res.id, res.officeNum)
         }
         if (res.role === "Engineer") {
-            newEmployee = new Intern(res.name, res.id, res.email, res.github)
+            employee = (res.name, res.email, res.id, res.github)
         }
-        if (response.role === "Intern") {
-            newEmployee = new Engineer(res.name, res.id, res.emaill, res.school)
+        if (res.role === "Intern") {
+            employee = (res.name, res.email, res.id, res.school)
         }
-        employees.push(newEmployee)
-        if (response.addEmployee) { getEmployees() }
+        employeeArr.push(employee)
+        if (res.addEmployee) { getEmployees() }
         else {
-            fs.writeFile(outputPath, render(employees),
+            fs.writeFile(outputPath, render(employeeArr),
             (err) => { if (err) {
                 throw err;
             } else {
