@@ -39,28 +39,25 @@ function getEmployees() {
         message: 'Which employee would you like to add?',
         choices: [ "Manager","Engineer", "Architect", "Intern"],
 },
-// Manager extra questions
+// Extra Questions by Role
         {
             type: "input",
             name: "officeNum",
             message: "Enter office number",
             when: (answers) => answers.role === "Manager",
         },
-    // Engineer extra questions
         {
                 type: "input",
                 name: "github",
                 message: "Enter their Github address",
                 when: (answers) => answers.role === "Engineer",
             },
-    // Architect extra questions
         {
             type: "input",
             name: "portfolio",
             message: "Enter their portfolio address",
             when: (answers) => answers.role === "Architect",
         },
-// Intern extra questions
         {
             type: "input",
             name: "school",
@@ -85,7 +82,7 @@ function getEmployees() {
         if (res.role === "Intern") {
             employeeData = new Intern(res.name, res.email, res.id, res.school)
         }
-        employees.push(employeeData)
+        employees.push(employeeData); 
         if (res.addEmployee) { getEmployees() }
         else {
             fs.writeFile(outputPath, render(employees),
