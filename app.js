@@ -34,7 +34,7 @@ function getEmployees() {
     },
     {
         type: 'list',
-        name: "Employee",
+        name: "role",
         message: 'Which employee would you like to add?',
         choices: [ "Manager",'Engineer', "Intern"],
 },
@@ -66,13 +66,13 @@ function getEmployees() {
         },
     ]).then((res) => {
         if (res.role === "Manager") {
-            employee = (res.name, res.email, res.id, res.officeNum)
+            employee = new Manager(res.name, res.email, res.id, res.officeNum)
         }
         if (res.role === "Engineer") {
-            employee = (res.name, res.email, res.id, res.github)
+            employee = new Engineer(res.name, res.email, res.id, res.github)
         }
         if (res.role === "Intern") {
-            employee = (res.name, res.email, res.id, res.school)
+            employee = new Intern(res.name, res.email, res.id, res.school)
         }
         employeeArr.push(employee)
         if (res.addEmployee) { getEmployees() }
