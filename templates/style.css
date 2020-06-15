@@ -2,7 +2,7 @@ body {
     font-family: 'Nanum Gothic', sans-serif;
 }
 
-#card {
+.card {
     margin-right: 10px;
-    width: 380px;
+    width: 400px;
 }
