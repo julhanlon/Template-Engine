@@ -42,7 +42,7 @@ function getEmployees() {
 // Extra Questions by Role
         {
             type: "input",
-            name: "officeNum",
+            name: "officeNumber",
             message: "Enter office number",
             when: (answers) => answers.role === "Manager",
         },
@@ -71,7 +71,7 @@ function getEmployees() {
         },
     ]).then((res) => {
         if (res.role === "Manager") {
-            employeeData = new Manager(res.name, res.email, res.id, res.officeNum)
+            employeeData = new Manager(res.name, res.email, res.id, res.officeNumber)
         }
         if (res.role === "Engineer") {
             employeeData = new Engineer(res.name, res.email, res.id, res.github)
